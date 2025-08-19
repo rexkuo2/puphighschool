@@ -10,8 +10,10 @@
   "deploy": "powershell -ExecutionPolicy Bypass -File ./deploy.ps1"
   },
   "dependencies": {
-    "vue": "^3.4.0",
-    "vue-router": "^4.3.0"
+  "vue": "^3.4.0",
+  "vue-router": "^4.3.0",
+  "bootstrap": "^5.3.3",
+  "@popperjs/core": "^2.11.8"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.0",

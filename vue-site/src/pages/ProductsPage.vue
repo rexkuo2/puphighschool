@@ -1,10 +1,18 @@
 <template>
-  <div>
-    <h2>商品列表</h2>
-    <div class="grid">
-      <div v-for="p in products" :key="p.id" class="card">
-        <h4>{{ p.name }}</h4>
-        <p>{{ p.price }} 元</p>
+  <div class="container">
+    <div class="d-flex align-items-center mb-4">
+      <h2 class="h4 mb-0">商品列表</h2>
+      <span class="badge bg-primary ms-3">{{ products.length }}</span>
+    </div>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+      <div v-for="p in products" :key="p.id" class="col">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body d-flex flex-column">
+            <h4 class="h6 fw-bold mb-2">{{ p.name }}</h4>
+            <p class="fw-semibold text-success mb-3">{{ p.price }} 元</p>
+            <button class="btn btn-outline-primary btn-sm mt-auto" type="button">加入購物車</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
