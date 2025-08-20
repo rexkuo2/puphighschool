@@ -28,14 +28,14 @@ body {
 /* Hero section styled similar to legacy hero */
 .hero-section {
   min-height: 60vh;
-  background: url('/images/highschoolmainbk_2.jpg') center/cover no-repeat;
+  background: url('/images/bk_right.jpg') center/cover no-repeat;
   position: relative;
   display:flex;
   align-items:center;
   padding: 4rem 0;
 }
 .hero-overlay { position:absolute; inset:0; background:rgba(0,0,0,.55); }
-.hero-content { position:relative; max-width:720px; margin-left :40px}
+.hero-content { position:relative; max-width:720px; margin-left :60px}
 .hero-content h1 { font-weight:700; font-size: clamp(2.2rem,5vw,3.5rem); }
 .hero-content p { font-size:1.1rem; font-weight:400; }
 
@@ -74,4 +74,9 @@ footer a:hover { color: var(--brand-accent); }
 
 @media (min-width: 992px) {
   .hero-section { min-height: 70vh; }
+}
+
+
+id_card{
+  
 }

@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
     <div class="container">
-      <RouterLink to="/puphighschool" class="navbar-brand">犬高育</RouterLink>
+      <RouterLink to="/puphighschool" class="navbar-brand">犬神高度育造高等學校</RouterLink>
       <button
         class="navbar-toggler"
         type="button"
