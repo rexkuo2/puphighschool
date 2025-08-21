@@ -1,28 +1,96 @@
 <template>
-  <div>
-    <section class="hero">
-      <h2>歡迎來到 Pup High School</h2>
-      <p>我們致力於提供最佳的教育與商品服務。</p>
-    </section>
-    <section>
-      <h3>特色商品</h3>
-      <div class="grid">
-        <div v-for="p in products" :key="p.id" class="card">
-          <h4>{{ p.name }}</h4>
-          <p>{{ p.desc }}</p>
+  <!-- News Ticker -->
+  <div class="news-ticker" @mouseenter="pauseTicker" @mouseleave="resumeTicker" role="region" aria-label="最新消息跑馬燈">
+    <div class="ticker-viewport" ref="viewportRef">
+      <div class="ticker-row" ref="rowRef">
+        <div class="ticker-item" v-for="(t,i) in marqueeItems" :key="i + '-' + t">
+          <span class="bullet" aria-hidden="true"></span>
+          <span class="ticker-text">{{ t }}</span>
         </div>
+      </div>
+    </div>
+  </div>
+  <!-- Hero Carousel -->
+  <div class="hero-carousel mb-5" @mouseenter="stopAuto" @mouseleave="startAuto">
+    <div class="hero-slide" v-for="(s,i) in heroSlides" :key="s.id" :class="{active:i===currentSlide, prev: i===prevSlideIndex, next: i===nextSlideIndex}" :style="{backgroundImage: 'url(' + s.image + ')'}">
+      <div class="hero-layer"></div>
+      <div class="container hero-inner">
+        <h1 class="display-5 fw-bold mb-3">{{ s.title }}</h1>
+        <p class="lead mb-4">{{ s.subtitle }}</p>
+        <RouterLink v-if="s.cta" :to="s.cta.to" class="btn btn-primary btn-lg px-4">{{ s.cta.label }}</RouterLink>
+      </div>
+    </div>
+    <button class="hero-control prev" @click="prevSlide" aria-label="上一張">‹</button>
+    <button class="hero-control next" @click="nextSlide" aria-label="下一張">›</button>
+    <div class="hero-dots">
+      <button v-for="(s,i) in heroSlides" :key="s.id" @click="goTo(i)" :class="{active: i===currentSlide}" :aria-label="'跳到第'+(i+1)+'張'" />
+    </div>
+  </div>
+  <div class="container section-spacing">
+    <!-- 活動歷程 Timeline -->
+    <section class="mt-5">
+      <div class="d-flex align-items-center mb-4">
+        <h3 class="h4 mb-0">活動歷程</h3>
+        <RouterLink to="/team" class="btn btn-link ms-2 p-0 small">查看更多 →</RouterLink>
+      </div>
+      <ul class="timeline list-unstyled">
+        <li v-for="(e,i) in timeline" :key="e.id" class="timeline-item d-flex">
+          <div class="timeline-dot mt-1 me-3"></div>
+          <div class="flex-grow-1 pb-4 border-start ps-3 position-relative">
+            <small class="text-muted d-block mb-1">{{ e.date }}</small>
+            <strong>{{ e.title }}</strong>
+            <p class="mb-1 small text-secondary">{{ e.desc }}</p>
+            <span v-if="i===0" class="badge bg-success small">最新</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 消息列表 News -->
+    <section class="mt-5">
+      <div class="d-flex align-items-center mb-4">
+        <h3 class="h4 mb-0">最新消息</h3>
+        <RouterLink to="/products" class="btn btn-link ms-2 p-0 small">全部消息 →</RouterLink>
+      </div>
+      <div class="list-group shadow-sm">
+        <a v-for="n in news" :key="n.id" href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+          <div>
+            <div class="fw-semibold">{{ n.title }}</div>
+            <div class="small text-muted">{{ n.date }}</div>
+          </div>
+            <span class="badge bg-primary rounded-pill align-self-center">{{ n.tag }}</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- YouTube 影片 -->
+    <section class="mt-5">
+      <div class="d-flex align-items-center mb-4">
+        <h3 class="h4 mb-0">介紹影片</h3>
+      </div>
+      <div class="ratio ratio-16x9 video-wrapper rounded overflow-hidden shadow-sm">
+        <iframe :src="youtubeEmbedUrl" title="YouTube video" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
       </div>
     </section>
   </div>
 </template>
+
 <script setup>
-import { ref, onMounted } from 'vue';
-const products = ref([
-  { id:1, name:'校園背包', desc:'耐用又時尚的學生背包' },
-  { id:2, name:'運動外套', desc:'保暖透氣，運動必備' },
-  { id:3, name:'紀念水壺', desc:'環保重複使用，隨身攜帶' }
-]);
-onMounted(()=>{
-  console.log('[DEBUG] HomePage mounted, products length =', products.value.length);
-});
+import { computed } from 'vue';
+import { useMarqueeTicker } from '@/composables/useMarqueeTicker';
+import { useHeroCarousel } from '@/composables/useHeroCarousel';
+import { useHomepageData } from '@/composables/useHomepageData';
+import '@/styles/home.css';
+
+// 資料 & 基本頁面資料
+const { heroSlides, news, timeline, products, youtubeEmbedUrl } = useHomepageData();
+
+// Hero
+const { currentSlide, nextSlide, prevSlide, goTo, startAuto, stopAuto, transitioning, prevSlideIndex, nextSlideIndex } = useHeroCarousel({ slides: heroSlides, intervalMs:6000 });
+
+// Ticker
+const tickerMessages = computed(()=> news.value.map(n => `[${n.tag}] ${n.date} - ${n.title}`));
+const { viewportRef, rowRef, marqueeItems, pauseTicker, resumeTicker } = useMarqueeTicker(()=> tickerMessages.value, { speed:70 });
 </script>
+
+<!-- 樣式與邏輯已分離：樣式在 src/styles/home.css，邏輯在 composables 中 -->
