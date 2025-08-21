@@ -5,7 +5,7 @@ import { fileURLToPath, URL } from 'node:url';
 export default defineConfig({
   plugins: [vue()],
   // 使用自訂網域時改為根路徑
-  base: '/',
+  base: '/puphighschool/',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
