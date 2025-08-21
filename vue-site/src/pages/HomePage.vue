@@ -1,6 +1,6 @@
 <template>
   <!-- News Ticker -->
-  <div class="news-ticker" @mouseenter="pauseTicker" @mouseleave="resumeTicker" role="region" aria-label="最新消息跑馬燈">
+  <!-- <div class="news-ticker" @mouseenter="pauseTicker" @mouseleave="resumeTicker" role="region" aria-label="最新消息跑馬燈">
     <div class="ticker-viewport" ref="viewportRef">
       <div class="ticker-row" ref="rowRef">
         <div class="ticker-item" v-for="(t,i) in marqueeItems" :key="i + '-' + t">
@@ -9,7 +9,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <!-- Hero Carousel -->
   <div class="hero-carousel mb-5" @mouseenter="stopAuto" @mouseleave="startAuto">
     <div class="hero-slide" v-for="(s,i) in heroSlides" :key="s.id" :class="{active:i===currentSlide, prev: i===prevSlideIndex, next: i===nextSlideIndex}" :style="{backgroundImage: 'url(' + s.image + ')'}">
@@ -27,24 +27,6 @@
     </div>
   </div>
   <div class="container section-spacing">
-    <!-- 活動歷程 Timeline -->
-    <section class="mt-5">
-      <div class="d-flex align-items-center mb-4">
-        <h3 class="h4 mb-0">活動歷程</h3>
-        <RouterLink to="/team" class="btn btn-link ms-2 p-0 small">查看更多 →</RouterLink>
-      </div>
-      <ul class="timeline list-unstyled">
-        <li v-for="(e,i) in timeline" :key="e.id" class="timeline-item d-flex">
-          <div class="timeline-dot mt-1 me-3"></div>
-          <div class="flex-grow-1 pb-4 border-start ps-3 position-relative">
-            <small class="text-muted d-block mb-1">{{ e.date }}</small>
-            <strong>{{ e.title }}</strong>
-            <p class="mb-1 small text-secondary">{{ e.desc }}</p>
-            <span v-if="i===0" class="badge bg-success small">最新</span>
-          </div>
-        </li>
-      </ul>
-    </section>
 
     <!-- 消息列表 News -->
     <section class="mt-5">
@@ -83,7 +65,7 @@ import { useHomepageData } from '@/composables/useHomepageData';
 import '@/styles/home.css';
 
 // 資料 & 基本頁面資料
-const { heroSlides, news, timeline, products, youtubeEmbedUrl } = useHomepageData();
+const { heroSlides, news, products, youtubeEmbedUrl } = useHomepageData(); // 移除 timeline
 
 // Hero
 const { currentSlide, nextSlide, prevSlide, goTo, startAuto, stopAuto, transitioning, prevSlideIndex, nextSlideIndex } = useHeroCarousel({ slides: heroSlides, intervalMs:6000 });
