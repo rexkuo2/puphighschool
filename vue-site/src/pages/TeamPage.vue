@@ -5,7 +5,7 @@
       <div class="container">
         <div class="row align-items-center g-4">
           <div class="col-lg-6 text-center d-none d-lg-block">
-            <img src="/images/ID_card.jpg" alt="About" class="img id_c"  />
+            <img :src="base + 'images/ID_card.jpg'" alt="About" class="img id_c" />
           </div>
         </div>
       </div>
@@ -21,7 +21,6 @@
             <p class="mb-3">我們專注於提供學生所需的一切資源與商品，結合教育服務與校園周邊，打造完整的支持系統。</p>
             <p class="mb-0">團隊成員具備多元背景，從課程設計、產品開發到品牌行銷，共同推動校園創新。</p>
             <div class="about-icon-box">
-              <!-- <img src="/images/about-icon.png" alt="Icon" /> -->
               <div>
                 <h4 class="h6 mb-2">Think Out Of The Box</h4>
                 <p class="small mb-2">持續探索更好的學習與商品體驗，接受挑戰並快速迭代。</p>
@@ -43,6 +42,32 @@
       </div>
     </section>
 
+    <!-- Timeline section (簡化無 h-tl-card) -->
+    <section class="container py-4">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <h2 class="h5 mb-0">活動歷程</h2>
+        <div class="tl-nav">
+          <button class="btn btn-sm btn-outline-primary me-2" @click="scroll(-1)" aria-label="往左">‹</button>
+          <button class="btn btn-sm btn-outline-primary" @click="scroll(1)" aria-label="往右">›</button>
+        </div>
+      </div>
+      <div class="mini-tl-wrap" ref="miniRef">
+        <ol class="mini-tl">
+          <li
+            v-for="(e,i) in reversedTimeline"
+            :key="e.id"
+            :class="['mini-item', { active:i===0 }]"
+            :title="e.title + ' - ' + e.date"
+          >
+            <span class="mini-point"></span>
+            <h6 class="mini-title">{{ e.title }}</h6>
+            <p class="mini-date">{{ e.date }}</p>
+            <span v-if="i===0" class="badge bg-success small">最新</span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
     <!-- Team grid -->
     <section class="container mb-5">
       <div class="team-section-heading text-center mb-4">
@@ -51,32 +76,41 @@
       </div>
       <div class="row g-4">
         <div v-for="m in members" :key="m.id" class="col-6 col-md-4 col-lg-3">
-            <div class="member-card shadow-sm">
-              <img :src="m.photo" :alt="m.name" />
-              <div class="member-overlay">
-                <h4>{{ m.name }}</h4>
-                <p>{{ m.roleLabel }}</p>
-                <div class="member-social">
-                  <i class="fab fa-facebook-f"></i>
-                  <i class="fab fa-twitter"></i>
-                </div>
+          <div class="member-card shadow-sm">
+            <img :src="base + m.photo" :alt="m.name" />
+            <div class="member-overlay">
+              <h4>{{ m.name }}</h4>
+              <p>{{ m.roleLabel }}</p>
+              <div class="member-social">
+                <i class="fab fa-facebook-f"></i>
+                <i class="fab fa-twitter"></i>
               </div>
             </div>
+          </div>
         </div>
       </div>
     </section>
   </div>
 </template>
+
 <script setup>
-import { ref } from 'vue';
-const members = ref([
-  { id:1, name:'Alice', role:'創辦人', roleLabel:'FOUNDER', photo:'/images/instructor1.jpg' },
-  { id:2, name:'Bob', role:'教學主任', roleLabel:'DIRECTOR', photo:'/images/instructor2.jpg' },
-  { id:3, name:'Carol', role:'商品經理', roleLabel:'PRODUCT', photo:'/images/instructor3.jpg' },
-  { id:4, name:'David', role:'行銷專員', roleLabel:'MARKETING', photo:'/images/instructor4.jpg' }
-]);
+import { ref, computed } from 'vue';
+import { useTeamPage } from '@/composables/useTeamPage';
+import '@/styles/team.css';
+
+const { members, timeline, base } = useTeamPage();
+
+// 倒序（最新在最左）
+const reversedTimeline = computed(()=> [...timeline.value].reverse());
+
+const miniRef = ref(null);
+function scroll(dir){
+  const el = miniRef.value;
+  if(!el) return;
+  el.scrollBy({ left: dir * 400, behavior:'smooth' });
+}
 </script>
 
 <style scoped>
-/* Scoped overrides placeholder */
+
 </style>
