@@ -1,6 +1,6 @@
 <template>
   <!-- 全幅封面（背景左右滿版） -->
-  <section class="cover-frame" :style="{ '--cover-img': 'url(' + base + 'images/summer_welcome_main.png)' }">
+  <section class="cover-frame" :style="{ '--cover-img': 'url(' + base + 'images/summer_welcome_with_name.png)' }">
     <div class="cover-frame-inner">
       
       <!-- <img
