@@ -1,4 +1,20 @@
 <template>
+  <!-- 全幅封面（背景左右滿版） -->
+  <section class="cover-frame" :style="{ '--cover-img': 'url(' + base + 'images/summer_welcome_main.png)' }">
+    <div class="cover-frame-inner">
+      
+      <!-- <img
+        v-if="showBadge"
+        class="cover-badge"
+        :src="base + 'images/mainboy.png'"
+        alt="封面裝飾"
+        loading="lazy"
+        draggable="false"
+      /> -->
+    </div>
+  </section>
+
+  <!-- 下面原有內容 -->
   <!-- News Ticker -->
   <!-- <div class="news-ticker" @mouseenter="pauseTicker" @mouseleave="resumeTicker" role="region" aria-label="最新消息跑馬燈">
     <div class="ticker-viewport" ref="viewportRef">
@@ -52,19 +68,19 @@
     </section>
 
     <!-- YouTube 影片 -->
-    <section class="mt-5">
+    <!-- <section class="mt-5">
       <div class="d-flex align-items-center mb-4">
         <h3 class="h4 mb-0">介紹影片</h3>
       </div>
       <div class="ratio ratio-16x9 video-wrapper rounded overflow-hidden shadow-sm">
         <iframe :src="youtubeEmbedUrl" title="YouTube video" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
       </div>
-    </section>
+    </section> -->
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useMarqueeTicker } from '@/composables/useMarqueeTicker';
 import { useHeroCarousel } from '@/composables/useHeroCarousel';
 import { useHomepageData } from '@/composables/useHomepageData';
@@ -79,6 +95,14 @@ const { currentSlide, nextSlide, prevSlide, goTo, startAuto, stopAuto, transitio
 // Ticker
 const tickerMessages = computed(()=> news.value.map(n => `[${n.tag}] ${n.date} - ${n.title}`));
 const { viewportRef, rowRef, marqueeItems, pauseTicker, resumeTicker } = useMarqueeTicker(()=> tickerMessages.value, { speed:70 });
+
+const base = import.meta.env.BASE_URL || '/';
+
+const showBadge = ref(false);
+onMounted(() => {
+  // 延遲 300ms 再淡入
+  setTimeout(()=> showBadge.value = true, 300);
+});
 </script>
 
 <!-- 樣式與邏輯已分離：樣式在 src/styles/home.css，邏輯在 composables 中 -->

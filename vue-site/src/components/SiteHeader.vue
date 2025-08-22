@@ -1,42 +1,38 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-    <div class="container">
-      <RouterLink to="/puphighschool" class="navbar-brand">犬神高度育造高等學校</RouterLink>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#mainNav"
-        aria-controls="mainNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
+  <header class="site-header-nav shadow-sm">
+    <nav class="nav-grid" aria-label="主選單">
+      <RouterLink
+        v-for="item in items"
+        :key="item.to"
+        :to="item.to"
+        class="nav-cell"
+        :class="{ active: route.path === item.to }"
       >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="mainNav">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <RouterLink to="/puphighschool" class="nav-link" active-class="active" exact-active-class="active">首頁</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink to="/team" class="nav-link" active-class="active" exact-active-class="active">人員介紹</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink to="/products" class="nav-link" active-class="active" exact-active-class="active">商品</RouterLink>
-          </li>
-            <li class="nav-item">
-            <RouterLink to="/contact" class="nav-link" active-class="active" exact-active-class="active">聯絡我們</RouterLink>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+        <div class="nav-img-wrap">
+          <img
+            class="img img-a"
+            :src="base + item.imgA"
+            :alt="item.label + ' 圖片 A'"
+            loading="lazy"
+            draggable="false"
+          />
+          <img
+            class="img img-b"
+            :src="base + item.imgB"
+            :alt="item.label + ' 圖片 B'"
+            loading="lazy"
+            draggable="false"
+          />
+        </div>
+        <span class="nav-label">{{ item.label }}</span>
+      </RouterLink>
+    </nav>
+  </header>
 </template>
 
 <script setup>
-// No extra logic needed for navbar at this moment
-</script>
+import { useSiteHeaderNav } from '@/composables/useSiteHeaderNav';
+import '@/styles/siteHeader.css';
 
-<style scoped>
-/* You can add any custom overrides here */
-</style>
+const { route, base, items } = useSiteHeaderNav();
+</script>

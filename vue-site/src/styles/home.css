@@ -104,3 +104,161 @@
 		margin-right:auto;
 	}
 }
+
+/* Cover Hero Section */
+.cover-hero {
+  --cover-img: url('/images/sakura.png');
+  position:relative;
+  width:100%;
+  min-height:60vh;
+  background: var(--cover-img) center center / cover no-repeat;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+.cover-hero::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.25));
+}
+.cover-inner {
+  position:relative;
+  text-align:center;
+  padding:2rem 1rem;
+  color:#fff;
+  max-width:960px;
+}
+.cover-title {
+  font-size:clamp(2rem,5vw,3.25rem);
+  font-weight:700;
+  letter-spacing:1px;
+  margin:0;
+  text-shadow:0 4px 16px rgba(0,0,0,.45);
+}
+/* 手機調整 */
+@media (max-width:575.98px){
+  .cover-hero { min-height:48vh; }
+  .cover-title { letter-spacing:.5px; }
+}
+
+/* 封面區塊與下方內容分離 */
+.cover-hero {
+  margin-bottom: 3rem; /* 調整數值控制距離 例如 2rem / 4rem */
+  position:relative;
+}
+
+/* 可選：加入一條淡淡分隔線 */
+.cover-hero::after {
+  /* 若你已用 ::after 做遮罩，改成 ::before 或把陰影放到 .cover-hero-overlay */
+  box-shadow:0 8px 20px -10px rgba(0,0,0,.35);
+}
+
+/* 可選：波浪 SVG 分隔 (需要在 HTML 加 .cover-separator) */
+.cover-separator {
+  margin-top:-2.2rem;
+  line-height:0;
+  height:60px;
+}
+.cover-separator svg {
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+/* 全幅封面背景 */
+.cover-frame {
+  --cover-img: url('/images/school_summer.png');
+  position:relative;
+  width:100%;
+  background: var(--cover-img) center center / cover no-repeat;
+  padding: 90px 0 70px; /* 上下距離可調 */
+  margin:0 0 3rem;
+  overflow:hidden;
+}
+.cover-frame::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.25));
+  pointer-events:none;
+}
+.cover-frame-inner {
+  position:relative;
+  max-width:1400px;
+  margin:0 auto;
+  padding:0 1rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:40vh;
+}
+.cover-badge {
+  position:absolute;
+  bottom:-25px;
+  left:25%;
+  /* width:180px; */
+  max-width:28vw;
+  animation: badgeFadeIn .9s cubic-bezier(.22,.9,.3,1) forwards;
+  opacity:0;
+  filter:drop-shadow(0 6px 16px rgba(0,0,0,.45));
+  pointer-events:none;
+  z-index:3;
+}
+@keyframes badgeFadeIn {
+  0% { opacity:0; transform:translateY(30px) scale(.9) rotate(-4deg); }
+  60% { opacity:1; transform:translateY(-6px) scale(1.03) rotate(1deg); }
+  100% { opacity:1; transform:translateY(0) scale(1) rotate(0deg); }
+}
+@media (max-width:575.98px){
+  .cover-frame { padding:70px 0 55px; margin-bottom:2.25rem; }
+  .cover-badge { width:130px; bottom:-15px; }
+}
+
+/* 覆寫：允許小圖超出背景 */
+.cover-frame {
+  overflow:visible; /* 原本是 hidden，改成 visible 讓小圖外溢可見 */
+}
+
+/* 清除舊的 cover-badge 定義 (含 bottom:-25px / left:25%)，只保留這一版 */
+/* 確保小圖底部貼齊背景底部：bottom:0 並以底部為縮放基準；若需微調可改 --badge-y-adjust */
+.cover-frame { overflow:visible; }
+
+.cover-badge {
+  --badge-min:220px;
+  --badge-max:460px;
+  --badge-vw:32vw;
+  --badge-scale:1;
+  --badge-y-adjust:-14vh; /* 正值往上收, 負值往下超出 */
+  position:absolute;
+  bottom:calc(0px + var(--badge-y-adjust));
+  right:3%;
+  width:clamp(var(--badge-min), var(--badge-vw), var(--badge-max));
+  height:auto;
+  max-height:85vh;
+  transform-origin:bottom center;
+  transform:scale(var(--badge-scale));
+  opacity:0;
+  animation:badgeFadeIn .9s cubic-bezier(.22,.9,.3,1) forwards;
+  filter:drop-shadow(0 10px 28px rgba(0,0,0,.55));
+  pointer-events:none;
+  z-index:5;
+}
+
+@keyframes badgeFadeIn {
+  0%   { opacity:0; transform:scale(calc(var(--badge-scale)*0.85)) translateY(18px) rotate(-4deg); }
+  60%  { opacity:1; transform:scale(calc(var(--badge-scale)*1.03)) translateY(-4px) rotate(1deg); }
+  100% { opacity:1; transform:scale(var(--badge-scale)) translateY(0) rotate(0deg); }
+}
+
+@media (max-width:575.98px){
+  .cover-badge {
+    --badge-min:180px;
+    --badge-max:340px;
+    --badge-vw:55vw;
+    --badge-scale:1.12;
+    right:4%;
+    max-height:60vh;
+  }
+}
