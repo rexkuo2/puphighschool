@@ -2,8 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --brand-bg-dark: #333646;
-  --brand-bg-darker: #252734;
+  --brand-bg-dark: #000000;
+  --brand-bg-darker: #000000;
   --brand-accent: #fcb532;
   --brand-accent-rgb: 252, 181, 50;
   --bs-body-font-family: 'Poppins', system-ui, Arial, sans-serif;

@@ -40,6 +40,9 @@ export function useHomepageData() {
     { id:1, date:'2025-08-20', title:'官方網站上線', tag:'公告' },
     { id:2, date:'2025-08-21', title:'商品預購即將開放', tag:'商品' },
     { id:3, date:'2025-08-22', title:'招募志工說明會', tag:'活動' },
+    { id:4, date:'2025-08-21', title:'商品預購即將開放', tag:'商品' },
+    { id:5, date:'2025-08-22', title:'招募志工說明會', tag:'活動' },
+    { id:6, date:'2025-08-22', title:'招募志工說明會', tag:'活動' }
   ]);
 
   const youtubeId = 'dQw4w9WgXcQ';
