@@ -1,6 +1,5 @@
 import { createApp } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
-// Bootstrap CSS & optional JS (for components like dropdowns, navbar toggler)
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import './global.css';
@@ -16,24 +15,27 @@ import { useAgeGate } from '@/composables/useAgeGate';
 
 const routes = [
   { path: '/', component: HomePage },
-  { path: '/puphighschool', component: HomePage },
+  // 若 deploy 在 /puphighschool/ 子路徑，不需要再額外定義 /puphighschool 路由，保持單一根路由
   { path: '/team', component: TeamPage },
   { path: '/products', component: ProductsPage },
   { path: '/contact', component: ContactPage },
   { path: '/age-gate', name: 'AgeGate', component: AgeGate }
 ];
 
-
-const router = createRouter({ history: createWebHistory(), routes });
-
-// 全域守衛：若未通過且非年齡頁，導去 /age-gate
-router.beforeEach((to, from, next) => {
-  const { isAccepted } = useAgeGate();
-  if (!isAccepted() && to.path !== '/age-gate') {
-    return next({ path: '/age-gate', query: { redirect: to.fullPath } });
-  }
-  next();
+// 使用 base 確保 GitHub Pages 子路徑正常 (vite.config.js 已設 base:'/puphighschool/')
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes
 });
 
-const app = createApp(App);
-app.use(router).mount('#app');
+// 防止重整時 redirect 參數被不斷嵌套
+router.beforeEach((to, from, next) => {
+  const { isAccepted } = useAgeGate();
+  const atAgeGate = to.name === 'AgeGate';
+  if (isAccepted()) return next();
+  if (atAgeGate) return next(); // 已在 /age-gate 不再加入 redirect
+  // 只在第一次導向時帶入目標路徑；不帶 /age-gate 自己
+  next({ name: 'AgeGate', query: { redirect: to.fullPath.startsWith('/age-gate') ? '/' : to.fullPath } });
+});
+
+createApp(App).use(router).mount('#app');
