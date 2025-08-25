@@ -5,7 +5,7 @@
       <div class="container">
         <div class="row align-items-center g-4">
           <div class="col-lg-6 text-center d-none d-lg-block">
-            <img :src="base + 'images/ID_card.jpg'" alt="About" class="img id_c" />
+            <img :src="base + '/images/ID_card.jpg'" alt="About" class="img id_c" />
           </div>
         </div>
       </div>

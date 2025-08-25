@@ -65,7 +65,7 @@
 	aspect-ratio: 2709 / 1042;
 	min-height:320px; /* 避免太扁 */
 	max-height:560px; /* 避免過高 */
-	background:#000 url('/puphighschool/images/news-bg.jpg') center / cover no-repeat;
+	background:#000 url('/images/news-bg.jpg') center / cover no-repeat;
 	width:100%;
 }
 
