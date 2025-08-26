@@ -9,7 +9,7 @@ export function useSiteHeaderNav() {
     { label:'活動介紹',     to:'/news',  imgA:'/images/news.png',       imgB:'/images/news_active.png' },
     { label:'作品集',     to:'/library', imgA:'/images/library.png',      imgB:'//images/library_active.png' },
     { label:'汪汪商城',     to:'/products',            imgA:'/images/store.png',         imgB:'/images/store_active.png' },
-    { label:'友善連結',   to:'/learning',    imgA:'/images/learning.png',     imgB:'/images/learning_active.png' },
+    { label:'友善連結',   to:'/link',    imgA:'/images/learning.png',     imgB:'/images/learning_active.png' },
   ];
   return { route, base, items };
 }

@@ -9,7 +9,9 @@ import App from './App.vue';
 import HomePage from './pages/HomePage.vue';
 import TeamPage from './pages/TeamPage.vue';
 import ProductsPage from './pages/ProductsPage.vue';
-import ContactPage from './pages/ContactPage.vue';
+import NewsPage from './pages/NewsPage.vue';
+import LibraryPage from './pages/LibraryPage.vue';
+import LinkPage from './pages/LinkPage.vue';
 import AgeGate from '@/pages/AgeGate.vue';
 import { useAgeGate } from '@/composables/useAgeGate';
 
@@ -18,7 +20,9 @@ const routes = [
   // 若 deploy 在 /puphighschool/ 子路徑，不需要再額外定義 /puphighschool 路由，保持單一根路由
   { path: '/team', component: TeamPage },
   { path: '/products', component: ProductsPage },
-  { path: '/contact', component: ContactPage },
+  { path: '/news', component: NewsPage },
+  { path: '/library', component: LibraryPage },
+  { path: '/link', component: LinkPage },
   { path: '/age-gate', name: 'AgeGate', component: AgeGate }
 ];
 
