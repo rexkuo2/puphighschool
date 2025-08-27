@@ -1,0 +1,412 @@
+.cover-frame-library {
+  /* 顯示完整圖片：上下不裁切，用 contain；左右可能留空 */
+  background: var(--cover-img) center center / cover no-repeat; /* 改 contain -> cover */
+  width:100%;
+  /* 移除原先 clamp 高度與 aspect-ratio 限制，改成視窗寬度推導高度或由內容撐開 */
+  height:auto;
+  aspect-ratio:auto;
+  padding:0;
+  margin:0 0 2rem;
+  position:relative;
+}
+
+/* 若要嚴格依圖片比例顯示全部且不裁切，可改成方法 B：
+.cover-frame-library {
+  background: var(--cover-img) top center / 100% auto no-repeat;
+}
+*/
+
+/* 可選：已知圖片比例 (例如 2400x900 = 8/3)，用 aspect-ratio 讓高度跟著寬度縮放且不裁切 */
+.cover-frame-library.use-ratio {
+  aspect-ratio: 8 / 3;       /* 改成你的圖片寬:高 */
+  background-size:100% 100%; /* 只適合圖片寬高等比例縮放時 */
+}
+
+/* 如果你想完全保留比例且不用背景裁切，改成放一張 <img>： */
+/*
+<section class="cover-frame-library no-bg" ...>
+  <img class="cover-lib-img" src="..." alt="" />
+  ...按鈕...
+</section>
+
+.cover-frame-library.no-bg { background:none; }
+.cover-frame-library .cover-lib-img {
+  display:block;
+  width:100%;
+  height:auto;
+}
+*/
+
+@media (max-width:575.98px){
+  .cover-frame-library { margin-bottom:1.75rem; }
+}
+
+/* 內層容器調整，避免原 home.css 的 min-height 造成干擾 */
+.cover-frame-library .cover-frame-inner {
+  height:100%;
+  padding:0;
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height: 76vh;
+}
+
+/* 若圖片比例未知或需自適應高度：移除 aspect-ratio，改用 min-height */
+@media (max-width: 991.98px){
+  .cover-frame-library { aspect-ratio:auto; }
+}
+@media (max-width: 575.98px){
+  .cover-frame-library {
+    height:clamp(180px, 46vw, 300px);
+  }
+}
+
+/* 可選：若想把左右黑邊做柔和漸層
+.cover-frame-library::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(90deg, #000 0%, transparent 12%, transparent 88%, #000 100%);
+  pointer-events:none;
+}
+*/
+
+/* 可選：若想改為寬度滿且適度裁切 (回原樣) 改此：
+   .cover-frame-library { background: var(--cover-img) center / cover no-repeat; }
+*/
+
+/* ===== Library Page 專用新增樣式 ===== */
+
+/* 封面內的左側切換按鈕群組 */
+.lib-switch-btns {
+  position:absolute;
+  top:1.25rem;
+  left:1.25rem;
+  display:flex;
+  flex-direction:column;
+  gap:.75rem;
+  z-index:5;
+}
+.lib-switch-btn {
+  background:rgba(0,0,0,.35);
+  padding:4px;
+  cursor:pointer;
+  transition:.25s;
+  line-height:0;
+  border:none;
+}
+.lib-switch-btn img {
+  display:block;
+  width:72px;
+  height:auto;
+  object-fit:contain;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,.5));
+}
+
+/* 限制封面左側切換圖片高度：不超出、等比縮放 */
+.cover-frame-library .lib-switch-btn img {
+  height:clamp(48px, 12vh, 88px); /* 中間 12vh，自適應視窗；上下限可調 */
+  width:auto;
+  max-height:88px;
+  object-fit:contain;
+}
+
+/* 若還是覺得太高，直接改上面最大值 88px，例如 72px */
+/* 只想用固定高度：height:72px; 刪除 clamp / max-height 即可 */
+@media (max-width:575.98px){
+  .cover-frame-library .lib-switch-btn img {
+    height:clamp(42px, 10vh, 70px);
+    max-height:70px;
+  }
+}
+
+/* 封面文字 */
+.lib-hero-caption {
+  position:absolute;
+  bottom:2rem;
+  left:2rem;
+  color:#fff;
+  text-shadow:0 4px 18px rgba(0,0,0,.55);
+  max-width:480px;
+  z-index:4;
+}
+.lib-title {
+  margin:0 0 .5rem;
+  font-size:clamp(1.8rem,4.2vw,3rem);
+  font-weight:700;
+  letter-spacing:1px;
+}
+.lib-sub {
+  margin:0;
+  font-size:clamp(.9rem,1.2vw,1.1rem);
+  opacity:.85;
+}
+
+/* 下方切換背景區塊 */
+.library-section-switch {
+  --switch-bg: url('/images/library_bk.png');
+  position:relative;
+  width:100%;
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.7)),
+    var(--switch-bg) center/cover no-repeat;
+  padding:3rem 0;
+  margin:0 0 3rem;
+  overflow:hidden;
+}
+.library-section-inner {
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 1.25rem;
+  position:relative;
+  min-height:360px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* 內容區塊 */
+.lib-block {
+  width:100%;
+  max-width:90%;
+  padding:2.25rem 2rem 2.4rem;
+  border-radius:1.1rem;
+  color:#fff;
+}
+.lib-block-title {
+  font-size:1.65rem;
+  font-weight:600;
+  margin:0 0 1rem;
+  letter-spacing:.5px;
+}
+.lib-block-text {
+  margin:0;
+  line-height:1.55rem;
+  font-size:.95rem;
+  opacity:.9;
+}
+
+/* 區塊差異（若需自訂可加） */
+.lib-block-a {}
+.lib-block-b {}
+
+/* Fade 過渡 (使用 <transition name="fade"> ) */
+
+
+/* RWD */
+@media (max-width:991.98px){
+  .lib-switch-btn img { width:60px; }
+  .lib-block { padding:1.9rem 1.5rem 2.1rem; }
+}
+@media (max-width:575.98px){
+  .lib-switch-btns { top:.75rem; left:.75rem; gap:.6rem; }
+  .lib-switch-btn img { width:56px; }
+  .lib-hero-caption { bottom:1.2rem; left:1.1rem; }
+  .lib-block { padding:1.6rem 1.25rem 1.9rem; }
+  .lib-block-title { font-size:1.35rem; }
+  .library-section-switch { padding:2.25rem 0 2.5rem; }
+}
+
+/* 重新定位：兩個切換按鈕置於封面底部左右兩側 */
+.cover-frame-library .lib-switch-btns {
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:1rem;              /* 與底部距離，可調 */
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  padding:0 1.25rem;        /* 左右內距 */
+  gap:0;                    /* 不需要中間間距 */
+  pointer-events:none;      /* 讓容器不阻擋點擊 */
+  z-index:5;
+}
+
+.cover-frame-library .lib-switch-btn {
+  pointer-events:auto;      /* 還原按鈕可點 */
+  background:rgba(0,0,0,.45);
+  padding:6px;
+  backdrop-filter:blur(4px);
+  transition:.25s;
+}
+
+.cover-frame-library .lib-switch-btn img {
+  width:auto;
+  height:70px;              /* 固定高，避免過大，可改 60~80 */
+  object-fit:contain;
+}
+
+
+
+/* === 方案 1：兩顆按鈕水平排在下方中間 (最常見) === */
+.cover-frame-library .lib-switch-btns {
+  position:absolute;
+  bottom:-37rem;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  flex-direction:row;
+  gap:26.25rem;
+  padding:0;
+  width:auto;
+  pointer-events:auto;
+  justify-content:center;
+  align-items:center;
+}
+.cover-frame-library .lib-switch-btn img {
+  height:70px;
+  width:auto;
+}
+
+
+/* 若兩張圖高度不同又想視覺對齊中心：統一固定高度，上述已處理 */
+@media (max-width:575.98px){
+  .cover-frame-library .lib-switch-btns { bottom:.6rem; gap:.9rem; }
+  .cover-frame-library .lib-switch-btn img { height:58px; }
+  .cover-frame-library.lib-btns-split .lib-switch-btns { padding:0 .75rem; }
+}
+
+/* 方案 2：寬度滿版，依圖片等比高度撐開，不裁切 (用一層 <img>) */
+.library-section-switch.use-img {
+  background:none;
+  padding:0;
+}
+.library-section-switch.use-img .library-section-inner {
+  position:relative;
+  max-width:none;
+  padding:0;
+}
+.library-section-switch.use-img .lib-bg-img {
+  display:block;
+  width:100%;
+  height:auto;      /* 等比縮放，完整呈現 */
+  vertical-align:middle;
+}
+.library-section-switch.use-img .lib-block-wrap {
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:2.5rem 1.25rem;
+  /* 背景內容在圖片上層 */
+}
+
+/* 六格照片區 */
+.library-photo-section {
+  width:100%;
+  margin:2.5rem 0 3rem;
+  display:flex;
+  justify-content:center;
+}
+
+.lib-photo-grid {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:1.1rem 1.5rem;
+  max-width:1000px;
+  margin:1rem auto 0;
+  width:100%;
+  padding:0 1rem;
+}
+
+.lib-photo-item {
+  position:relative;
+  border-radius:.9rem;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* 第一張：不強制比例，隨原圖 */
+.lib-photo-item.single {
+  padding:0;
+}
+.lib-photo-item.single .lib-photo-raw {
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:contain;
+  aspect-ratio:auto;
+}
+
+
+/* 其餘：固定外框比例 (可調) */
+.lib-photo-item.framed {
+  aspect-ratio:4/3;
+  padding:.4rem;
+  background:transparent;
+}
+
+/* 背景框 */
+.lib-photo-frame {
+  position:relative;
+  inset:0;
+  width:100%;
+  height:100%;
+  background:var(--frame-img) center center / cover no-repeat;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+/* 內層主圖：置中縮放 */
+.lib-photo-inner {
+  max-width:78%;
+  max-height:78%;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  filter:drop-shadow(0 4px 10px rgba(0,0,0,.55));
+  transition:transform .55s ease, filter .55s ease;
+}
+.lib-photo-item.framed:hover .lib-photo-inner {
+  transform:scale(1.07);
+  filter:drop-shadow(0 6px 14px rgba(0,0,0,.65)) brightness(1.08);
+}
+
+/* Caption (若需要) */
+.lib-photo-item .lib-cap {
+  position:absolute;
+  left:0; right:0; bottom:0;
+  padding:.4rem .6rem;
+  font-size:.7rem;
+  line-height:1.1;
+  background:linear-gradient(180deg,rgba(0,0,0,0) 0%, rgba(0,0,0,.7) 90%);
+  color:#fff;
+  pointer-events:none;
+}
+
+/* 手機單欄 */
+@media (max-width:575.98px){
+  .lib-photo-grid {
+    grid-template-columns:1fr;
+    gap:.9rem;
+  }
+  .lib-photo-item.framed { aspect-ratio:16/11; }
+  .lib-photo-inner { max-width:82%; max-height:82%; }
+}
+
+/* 覆寫原本 fade 過場：取消位移與縮放，只做瞬間或純淡入 (可選) */
+
+/* 方案 1：完全無任何動畫 (瞬間切換) */
+.fade-enter-active,
+.fade-leave-active {
+  transition:none !important;
+}
+
+
+/* 若你想保留 0.18s 淡入淡出 (無位移)，改用下列，並刪除上面方案 1：
+.fade-enter-active,
+.fade-leave-active { transition:opacity .18s linear; }
+.fade-enter-from,
+.fade-leave-to { opacity:0; }
+.fade-enter-from,
+.fade-enter-to,
+.fade-leave-from,
+.fade-leave-to { transform:none !important; }
+*/

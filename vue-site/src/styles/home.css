@@ -169,7 +169,6 @@
 
 /* 全幅封面背景 */
 .cover-frame {
-  --cover-img: url('/images/school_summer.png');
   position:relative;
   width:100%;
   background: var(--cover-img) center center / cover no-repeat;
