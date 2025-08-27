@@ -1,9 +1,7 @@
 .age-gate {
   position:fixed;
   inset:0;
-  background:
-    linear-gradient(160deg, rgba(0,0,0,.85), rgba(0,0,0,.6)),
-    var(--age-bg) center/cover no-repeat;
+  background:rgba(10,10,12,.88); 
   display:flex;
   align-items:stretch; /* 允許 panel 撐滿高度 (改原本 center) */
   justify-content:center;
@@ -97,4 +95,14 @@
   0% { transform:translateY(25px) scale(.96); opacity:0; }
   60% { transform:translateY(-6px) scale(1.01); opacity:1; }
   100% { transform:translateY(0) scale(1); opacity:1; }
+}
+
+.age-actions { display:flex; gap:1.5rem; justify-content:center; }
+.age-btn-img { background:transparent; border:0; padding:0; cursor:pointer; line-height:0; position:relative; }
+.age-btn-img img { display:block; width:230px; max-width:42vw; height:auto; transition:transform .25s ease, filter .25s ease; }
+.age-btn-img:hover img, .age-btn-img:focus-visible img { transform:translateY(-4px) scale(1.03); filter:brightness(1.08); }
+.age-btn-img:active img { transform:translateY(-1px) scale(0.99); filter:brightness(.92); }
+@media (max-width:576px){
+  .age-actions { gap:1rem; }
+  .age-btn-img img { width:170px; }
 }

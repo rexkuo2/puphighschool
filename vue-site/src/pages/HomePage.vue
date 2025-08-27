@@ -66,7 +66,7 @@
 <script setup>
 // 分離後只留下導入與解構
 import '@/styles/home.css';
-import { useHomePageState } from './homePageState';
+import { useHomePageState } from '../composables/homePageState';
 
 const {
   base,

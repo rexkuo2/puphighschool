@@ -7,8 +7,15 @@
       <!-- 底部固定區 -->
       <div class="age-bottom">
         <div class="age-actions">
-          <button class="btn btn-lg btn-success px-4" @click="agree">我已年滿 18 歲</button>
-          <button class="btn btn-lg btn-exit px-4" @click="leave">離開</button>
+          <!-- 圖片按鈕 + hover 換圖 -->
+          <button class="age-btn-img" @click="agree" aria-label="我已年滿18歲"
+                  @mouseenter="isYesHover=true" @mouseleave="isYesHover=false">
+            <img :src="isYesHover ? yesBtnHoverSrc : yesBtnSrc" alt="我已年滿 18 歲" @error="onImgError($event,'yes')" />
+          </button>
+          <button class="age-btn-img" @click="leave" aria-label="離開"
+                  @mouseenter="isExitHover=true" @mouseleave="isExitHover=false">
+            <img :src="isExitHover ? exitBtnHoverSrc : exitBtnSrc" alt="離開" @error="onImgError($event,'exit')" />
+          </button>
         </div>
         <p class="age-note small mt-3 opacity-75">選擇「我已年滿 18 歲」後將記住此結果。</p>
       </div>
@@ -17,18 +24,18 @@
 </template>
 
 <script setup>
-import { useRouter, useRoute } from 'vue-router';
-import { useAgeGate } from '@/composables/useAgeGate';
-const router = useRouter();
-const route = useRoute();
-const { setAccepted } = useAgeGate();
-function agree() {
-  setAccepted();
-  router.replace(route.query.redirect && !String(route.query.redirect).startsWith('/age-gate')
-    ? route.query.redirect
-    : '/');
-}
-function leave() {
-  window.location.href = 'https://www.google.com/';
-}
+import { useAgeGatePage } from '@/composables/useAgeGate';
+const {
+  yesBtnSrc,
+  yesBtnHoverSrc,
+  exitBtnSrc,
+  exitBtnHoverSrc,
+  isYesHover,
+  isExitHover,
+  agree,
+  leave,
+  onImgError
+} = useAgeGatePage();
 </script>
+
+<style scoped src="@/styles/ageGate.css"></style>

@@ -61,11 +61,11 @@
 import { computed, ref, onMounted } from 'vue';
 import { useMarqueeTicker } from '@/composables/useMarqueeTicker';
 import { useHeroCarousel } from '@/composables/useHeroCarousel';
-import { useHomepageData } from '@/composables/useHomepageData';
+import { useHomePageState } from '@/composables/homePageState';
 import '@/styles/home.css';
 
-// 資料 & 基本頁面資料
-const { heroSlides, news, products, youtubeEmbedUrl } = useHomepageData(); // 移除 timeline
+// 資料 & 基本頁面資料 (改用合併後 composable)
+const { heroSlides, news, youtubeEmbedUrl, base: baseFromState } = useHomePageState();
 
 // Hero
 const { currentSlide, nextSlide, prevSlide, goTo, startAuto, stopAuto, transitioning, prevSlideIndex, nextSlideIndex } = useHeroCarousel({ slides: heroSlides, intervalMs:6000 });
@@ -74,7 +74,7 @@ const { currentSlide, nextSlide, prevSlide, goTo, startAuto, stopAuto, transitio
 const tickerMessages = computed(()=> news.value.map(n => `[${n.tag}] ${n.date} - ${n.title}`));
 const { viewportRef, rowRef, marqueeItems, pauseTicker, resumeTicker } = useMarqueeTicker(()=> tickerMessages.value, { speed:70 });
 
-const base = import.meta.env.BASE_URL || '/';
+const base = baseFromState || import.meta.env.BASE_URL || '/';
 
 const showBadge = ref(false);
 onMounted(() => {

@@ -776,15 +776,6 @@
   border:1px solid #fcb532;
 }
 
-/* 若需要線更亮可加外光暈 */
-.mini-tl::after {
-  content:"";
-  position:absolute;
-  inset:0;
-  box-shadow:0 0 8px 1px #fcb532;
-  pointer-events:none;
-}
-
 /* 其他舊時間軸（若仍使用）統一改色與字色 */
 .h-timeline-outer,
 .timeline-h-wrapper {
