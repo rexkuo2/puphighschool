@@ -154,7 +154,7 @@
     var(--switch-bg) center/cover no-repeat;
   padding:3rem 0;
   margin:0 0 3rem;
-  overflow:hidden;
+  overflow:visible; /* 允許內部溢出供動態 padding 包含 */
 }
 .library-section-inner {
   max-width:1200px;
@@ -171,7 +171,6 @@
 .lib-block {
   width:100%;
   max-width:90%;
-  padding:2.25rem 2rem 2.4rem;
   border-radius:1.1rem;
   color:#fff;
 }
@@ -190,7 +189,9 @@
 
 /* 區塊差異（若需自訂可加） */
 .lib-block-a {}
-.lib-block-b {}
+.lib-block-b {
+  height: 100%;
+}
 
 /* Fade 過渡 (使用 <transition name="fade"> ) */
 
@@ -297,29 +298,32 @@
 /* 六格照片區 */
 .library-photo-section {
   width:100%;
-  margin:2.5rem 0 3rem;
+  height: 100%;
   display:flex;
   justify-content:center;
+  overflow:visible;
 }
 
+/* A 方案：改為絕對定位自由排布容器 */
 .lib-photo-grid {
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:1.1rem 1.5rem;
+  position:relative;
   max-width:1000px;
-  margin:1rem auto 0;
   width:100%;
-  padding:0 1rem;
+  overflow:visible;
+  min-height:320px; /* 初始高度避免閃跳 */
 }
 
 .lib-photo-item {
-  position:relative;
+  position:absolute; /* 絕對定位 */
   border-radius:.9rem;
-  overflow:hidden;
   display:flex;
   align-items:center;
   justify-content:center;
+  overflow:visible;
+  transition:transform .35s ease;
 }
+
+/* 若想完全脫離 grid 演算法，可在 JS 中給 absolute: true 然後用這裡條件類別改成 position:absolute; 指定 top/left */
 
 /* 第一張：不強制比例，隨原圖 */
 .lib-photo-item.single {
@@ -327,17 +331,19 @@
 }
 .lib-photo-item.single .lib-photo-raw {
   width:100%;
-  height:auto;
+  height:80%;
   display:block;
   object-fit:contain;
   aspect-ratio:auto;
+  /* 可自訂位移與縮放 */
+  transform:translate(var(--raw-offset-x,0), var(--raw-offset-y,0)) scale(var(--raw-scale,1));
 }
 
 
 /* 其餘：固定外框比例 (可調) */
 .lib-photo-item.framed {
-  aspect-ratio:4/3;
-  padding:.4rem;
+  aspect-ratio:auto;
+  padding:0; /* 外框與父層同尺寸 */
   background:transparent;
 }
 
@@ -352,22 +358,25 @@
   align-items:center;
   justify-content:center;
   overflow:hidden;
+  background-size: contain;
+  /* 外框僅位移，不縮放，確保填滿父層 */
+  transform:translate(var(--frame-offset-x,0), var(--frame-offset-y,0));
 }
 
 /* 內層主圖：置中縮放 */
 .lib-photo-inner {
-  max-width:78%;
-  max-height:78%;
-  width:auto;
-  height:auto;
-  object-fit:contain;
+  width:80%;
+  height:80%;
+  object-fit:cover;
+  padding:var(--inner-inset,0);
+  box-sizing:border-box;
+  transform:scale(var(--inner-scale,1));
   filter:drop-shadow(0 4px 10px rgba(0,0,0,.55));
-  transition:transform .55s ease, filter .55s ease;
 }
-.lib-photo-item.framed:hover .lib-photo-inner {
+/* .lib-photo-item.framed:hover .lib-photo-inner {
   transform:scale(1.07);
   filter:drop-shadow(0 6px 14px rgba(0,0,0,.65)) brightness(1.08);
-}
+} */
 
 /* Caption (若需要) */
 .lib-photo-item .lib-cap {

@@ -24,18 +24,36 @@ export function useLibraryPageState() {
 
   // 第一張：單純顯示；其餘：frame + inner
   const photos = ref([
-    { type:'single', src:'/images/left_worlds.png', alt:'原圖 1', caption:'' },
-    { type:'framed', frameSrc:'/images/frame.png', innerSrc:'/images/library/photos/p2.png', alt:'圖 2', caption:'' },
-    { type:'framed', frameSrc:'/images/frame.png', innerSrc:'/images/library/photos/p3.png', alt:'圖 3', caption:'' },
-    { type:'framed', frameSrc:'/images/frame.png', innerSrc:'/images/library/photos/p4.png', alt:'圖 4', caption:'' },
-    { type:'framed', frameSrc:'/images/frame.png', innerSrc:'/images/library/photos/p5.png', alt:'圖 5', caption:'' },
-    { type:'framed', frameSrc:'/images/frame.png', innerSrc:'/images/library/photos/p6.png', alt:'圖 6', caption:'' }
+  // 可選屬性：
+  // offsetX, offsetY (px) 控制內層主圖位移；scale 控制內層主圖縮放；
+  // frameScale 若要連同外層 frame 縮放 (0.8~1.2)；rawOffset/ rawScale 給 single 類型
+  // 新：autoLayout = true 進行 2x3 自動計算 (水平2張 * 垂直3張)；之後若要自訂把 autoLayout 改 false 並指定 absX/absY/sizeW/sizeH。
+  { type:'single', autoLayout:true, absolute:true, src:'/images/left_worlds.png', alt:'原圖 1', caption:'', rawScale:0.9, cellScale:1, cellZ:3, itemScale:1, itemDX:-10, itemDY:0, tweakX:0, tweakY:0 },
+  { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/frame.png', innerSrc:'/images/mainboy.png', alt:'圖 2', caption:'', scale:0.9, cellScale:1, cellZ:4, itemScale:1, itemDX:0, itemDY:0, tweakX:0, tweakY:0 },
+  { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/frame.png', innerSrc:'/images/mainboy.png', alt:'圖 3', caption:'', scale:0.85, cellScale:1, cellZ:2, itemScale:1, itemDX:0, itemDY:0, tweakX:0, tweakY:0 },
+  { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/frame.png', innerSrc:'/images/mainboy.png', alt:'圖 4', caption:'', scale:0.92, cellScale:1, cellZ:5, itemScale:1, itemDX:0, itemDY:0, tweakX:0, tweakY:0 },
+  { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/frame.png', innerSrc:'/images/mainboy.png', alt:'圖 5', caption:'', scale:0.95, cellScale:1, cellZ:1, itemScale:1, itemDX:0, itemDY:0, tweakX:0, tweakY:0 },
+  { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/frame.png', innerSrc:'/images/mainboy.png', alt:'圖 6', caption:'', scale:0.88, cellScale:1, cellZ:6, itemScale:1, itemDX:0, itemDY:0, tweakX:0, tweakY:0 }
   ]);
 
   function onPhotoErr(e, isSingle){
     e.target.onerror = null;
     e.target.src = base + (isSingle ? '/images/left_worlds.png'
                                     : '/images/frame.png');
+  }
+
+  function setItemTransform(i, { scale, moveX, moveY } = {}) {
+    const p = photos.value[i];
+    if(!p) return;
+    if(typeof scale === 'number') p.itemScale = scale;
+    if(typeof moveX === 'number') p.itemDX = moveX;
+    if(typeof moveY === 'number') p.itemDY = moveY;
+  }
+
+  function setPhotoTweak(i, dx = 0, dy = 0){
+    const p = photos.value[i];
+    if(!p) return;
+    p.tweakX = dx; p.tweakY = dy;
   }
 
   return {
@@ -45,6 +63,8 @@ export function useLibraryPageState() {
     btnB, btnBActive, btnBHover,
     onImgErr,
     photos,
-    onPhotoErr
+  onPhotoErr,
+  setItemTransform,
+  setPhotoTweak
   };
 }
