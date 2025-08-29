@@ -28,12 +28,12 @@ export function useLibraryPageState() {
   // offsetX, offsetY (px) 控制內層主圖位移；scale 控制內層主圖縮放；
   // frameScale 若要連同外層 frame 縮放 (0.8~1.2)；rawOffset/ rawScale 給 single 類型
   // 新：autoLayout = true 進行 2x3 自動計算 (水平2張 * 垂直3張)；之後若要自訂把 autoLayout 改 false 並指定 absX/absY/sizeW/sizeH。
-  { type:'single', autoLayout:true, absolute:true, src:'/images/left_worlds.png', alt:'原圖 1', caption:'', rawScale:0.9, cellScale:1, cellZ:3, itemScale:1, itemDX:-10, itemDY:0, tweakX:0, tweakY:0 },
-  { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/frame.png', innerSrc:'/images/mainboy.png', alt:'圖 2', caption:'', scale:0.9, cellScale:1, cellZ:4, itemScale:1, itemDX:0, itemDY:0, tweakX:0, tweakY:0 },
-  { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/frame.png', innerSrc:'/images/mainboy.png', alt:'圖 3', caption:'', scale:0.85, cellScale:1, cellZ:2, itemScale:1, itemDX:0, itemDY:0, tweakX:0, tweakY:0 },
-  { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/frame.png', innerSrc:'/images/mainboy.png', alt:'圖 4', caption:'', scale:0.92, cellScale:1, cellZ:5, itemScale:1, itemDX:0, itemDY:0, tweakX:0, tweakY:0 },
-  { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/frame.png', innerSrc:'/images/mainboy.png', alt:'圖 5', caption:'', scale:0.95, cellScale:1, cellZ:1, itemScale:1, itemDX:0, itemDY:0, tweakX:0, tweakY:0 },
-  { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/frame.png', innerSrc:'/images/mainboy.png', alt:'圖 6', caption:'', scale:0.88, cellScale:1, cellZ:6, itemScale:1, itemDX:0, itemDY:0, tweakX:0, tweakY:0 }
+  { type:'single', autoLayout:true, absolute:true, src:'/images/left_worlds.png', alt:'原圖 1', caption:'', rawScale:0.7, cellScale:1, cellZ:3, itemScale:0.7, itemDX:-10, itemDY:-150, tweakX:0, tweakY:0 },
+  { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/frame.png', innerSrc:'/images/mainboy.png', alt:'圖 2', caption:'', scale:0.8, cellScale:0.8, cellZ:4, itemScale:0.8, itemDX:40, itemDY:-60, tweakX:0, tweakY:0 },
+  { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/frame.png', innerSrc:'/images/mainboy.png', alt:'圖 3', caption:'', scale:0.85, cellScale:1, cellZ:2, itemScale:0.9, itemDX:0, itemDY:-435, tweakX:0, tweakY:0 },
+  { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/frame.png', innerSrc:'/images/mainboy.png', alt:'圖 4', caption:'', scale:0.92, cellScale:1, cellZ:5, itemScale:0.8, itemDX:-25, itemDY:-180, tweakX:0, tweakY:0 },
+  { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/frame.png', innerSrc:'/images/mainboy.png', alt:'圖 5', caption:'', scale:0.95, cellScale:1, cellZ:1, itemScale:0.8, itemDX:20, itemDY:-540, tweakX:0, tweakY:0 },
+  { type:'framed', autoLayout:true, absolute:true, frameSrc:'/images/frame.png', innerSrc:'/images/mainboy.png', alt:'圖 6', caption:'', scale:0.88, cellScale:1, cellZ:6, itemScale:0.7, itemDX:45, itemDY:-340, tweakX:0, tweakY:0 }
   ]);
 
   function onPhotoErr(e, isSingle){

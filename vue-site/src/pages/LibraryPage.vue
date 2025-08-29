@@ -134,6 +134,7 @@ function applyAutoLayout(){
   const cols = 2;
   const gapX = 18, gapY = 18;
   const maxGridWidth = 1200;
+  const maxHeight = 1600;
   const gridWidth = Math.min(block.clientWidth, maxGridWidth);
   // 每格寬度 = (gridWidth /2) - shrink
   const shrink = 100; // 調小一點
@@ -153,8 +154,10 @@ function applyAutoLayout(){
     col++;
     if(col>=cols){ col=0; row++; }
   });
+  const gridheight = Math.min(maxBottom, maxHeight);
+
   grid.style.width = gridWidth + 'px';
-  grid.style.height = maxBottom + 'px';
+  grid.style.height = gridheight + 'px';
 }
 let basePadTop = null;
 let basePadBottom = null;
@@ -187,6 +190,8 @@ function adjustSectionHeight(){
   const sectionRect = section.getBoundingClientRect();
   const needed = Math.ceil(maxBottom - sectionRect.top) + 40; // 加少量底部緩衝
   // 設定最小高度避免收縮
+  console.log('Adjusting section height:', needed);
+  console.log('Current section height:', section.offsetHeight);
   if(needed > section.offsetHeight){
     section.style.minHeight = needed + 'px';
   }
